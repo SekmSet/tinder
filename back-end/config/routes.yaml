@@ -1,0 +1,24 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+match_list:
+    path: /api/match/{id}
+    defaults:
+        id: 31
+    controller: App\Controller\Match\ListMatch
+    methods: GET
+
+settings_list:
+    path: /api/settings/{id}
+    defaults:
+        id: 31
+    controller: App\Controller\Profil\Settings
+    methods: GET
+
+messages_list:
+    path: /api/messaging/{id}
+    defaults:
+        id: 31
+    controller: App\Controller\Messages\ListMessages
+    methods: GET

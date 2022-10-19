@@ -1,0 +1,6 @@
+.idea/
+
+back-end/.env
+front-end/config.js
+front-end/.idea
+front-end/node_modules
