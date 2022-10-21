@@ -7,13 +7,31 @@ import {
   Alert,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getMatches } from "../../../service/match";
 
 export const ViewAllMessaging = () => {
+  const [profils, setProfils] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await getMatches();
+      setProfils(users);
+    };
+
+    fetchData().catch(console.error);
+  }, []);
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Text>Mes messages</Text>
+        {profils.map((profil) => (
+          <View key={profil.id}>
+            <Text>
+              {profil.last_name} {profil.first_name} {profil.gender}
+            </Text>
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
