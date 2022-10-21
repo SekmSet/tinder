@@ -8,7 +8,7 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { getMessage, send } from "../../../service/message";
+import { send } from "../../../service/message";
 
 export const CreateMessaging = ({ route, navigation }) => {
   const [text, setText] = useState(null);

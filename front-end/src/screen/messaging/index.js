@@ -1,11 +1,17 @@
-import { StyleSheet, View, SafeAreaView, Text, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Text,
+  Image,
+  Button,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMatches } from "../../../service/match";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export const ViewAllMessaging = ({ navigation }) => {
   const [profils, setProfils] = useState([]);
-  const [id, setId] = useState(1);
 
   const sendMessage = (value) => {
     navigation.navigate("Messagerie", {
@@ -24,6 +30,16 @@ export const ViewAllMessaging = ({ navigation }) => {
 
     fetchData().catch(console.error);
   }, []);
+
+  // const viewMessages = (p) => {
+  //   console.log(p, profils[0]);
+  //   navigation.navigate("Detail", {
+  //     params: {
+  //       profil: p,
+  //       idreceiver: 1,
+  //     },
+  //   });
+  // };
 
   return (
     <SafeAreaView>
@@ -44,6 +60,10 @@ export const ViewAllMessaging = ({ navigation }) => {
               color="black"
               onPress={() => sendMessage(profil)}
             />
+            {/*<Button*/}
+            {/*  onPress={() => viewMessages(profil)}*/}
+            {/*  title="Afficher les messages"*/}
+            {/*></Button>*/}
           </View>
         ))}
       </View>

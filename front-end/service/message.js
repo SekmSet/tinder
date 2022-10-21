@@ -19,7 +19,7 @@ const getMessage = (id, idUserMatch) => {
   try {
     return axios
       .get(GET_MESSAGE_IN_CONV + `/${id}/${idUserMatch}`)
-      .then((response) => console.log(response.data));
+      .then((response) => response.data);
   } catch (e) {
     console.error("Error when send message : " + e);
   }

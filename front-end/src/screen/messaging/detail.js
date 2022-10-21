@@ -6,6 +6,8 @@ import {
   Text,
   Image,
   TextInput,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMessage, send } from "../../../service/message";
@@ -15,7 +17,7 @@ export const ViewDetailMessaging = ({ route, navigation }) => {
   const [idSender, setIdSender] = useState(1);
   const [idreceiver, setIdReceiver] = useState(null);
   const [profil, setProfil] = useState(null);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const sendMessage = () => {
     send(idSender, text, idreceiver);
@@ -25,40 +27,53 @@ export const ViewDetailMessaging = ({ route, navigation }) => {
   useEffect(() => {
     setIdReceiver(route.params.idreceiver);
     setProfil(route.params.profil);
-
-    setMessages(getMessage(idSender, route.params.idreceiver));
+    getMessage(idSender, route.params.idreceiver).then((mes) => {
+      console.log(mes);
+      setMessages(mes);
+    });
   }, []);
 
+  console.log(messages);
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Image
-          source={{ uri: profil?.images[0].url }}
-          style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
-        />
-        <Text>
-          {profil?.last_name} {profil?.first_name}
-        </Text>
+    <ScrollView>
+      <SafeAreaView>
+        <View style={styles.container}>
+          <Image
+            source={{ uri: profil?.images[0].url }}
+            style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
+          />
+          <Text>
+            {profil?.last_name} {profil?.first_name}
+          </Text>
 
-        <TextInput
-          style={styles.input}
-          onChangeText={setText}
-          value={text}
-          placeholder=""
-          keyboardType="numeric"
-        />
+          <View>
+            {messages.map((message, index) => (
+              <View key={index}>
+                <Text>{message.text}</Text>
+              </View>
+            ))}
+          </View>
 
-        <Button
-          // backgroundColor="#ff69b4"
-          color="#ff6b4"
-          style={styles.button}
-          title="Envoyer"
-          onPress={sendMessage}
-        >
-          Envoyer
-        </Button>
-      </View>
-    </SafeAreaView>
+          <TextInput
+            style={styles.input}
+            onChangeText={setText}
+            value={text}
+            placeholder=""
+            keyboardType="numeric"
+          />
+
+          <Button
+            // backgroundColor="#ff69b4"
+            color="#ff6b4"
+            style={styles.button}
+            title="Envoyer"
+            onPress={sendMessage}
+          >
+            Envoyer
+          </Button>
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -74,5 +89,8 @@ const styles = StyleSheet.create({
     height: 50,
     padding: 3,
   },
-  button: {},
+  message: {
+    backgroundColor: "blue",
+    color: "white",
+  },
 });
