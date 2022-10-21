@@ -2,19 +2,27 @@
 
 namespace App\Controller\Messages;
 
-use App\Service\UsersService;
+use App\Service\MessageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ListMessages extends AbstractController
 {
-    public function __invoke(UsersService $usersService, Request $request): Response
+    public function __invoke(MessageService $messageService, Request $request): Response
     {
         $allAttributes = $request->attributes->all();
-        $id = $allAttributes['id'];
+        $id = $allAttributes['my_id'];
+        $idUserB = $allAttributes['id_recevier'];
 
-        return $this->json("ok", Response::HTTP_OK);
+        $allMessages = $messageService->getMyMessages($id, $idUserB);
+
+        $result = [];
+        foreach ($allMessages as $m) {
+            $result[] = $m->toJson();
+        }
+
+        return $this->json($result, Response::HTTP_OK);
     }
 
 

@@ -6,7 +6,7 @@ const getUsers = async () => {
     const fetch = await axios.get(MATCH_URL);
     // const stringify = JSON.stringify(fetch.data)
     // console.debug("stringify " + stringify)
-    console.debug("fetch " + fetch);
+    // console.debug("fetch " + fetch);
     // console.debug(stringify.images)
     return fetch.data;
   } catch (e) {
@@ -19,7 +19,7 @@ const getMatches = async () => {
     const fetch = await axios.get(MY_MATCHES_URL);
     // const stringify = JSON.stringify(fetch.data)
     // console.debug("stringify " + stringify)
-    console.debug("fetch " + fetch);
+    // console.debug("fetch " + fetch);
     // console.debug(stringify.images)
     return fetch.data;
   } catch (e) {

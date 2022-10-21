@@ -72,11 +72,19 @@ class Users
     #[ORM\OneToMany(mappedBy: 'userB', targetEntity: UserMatch::class)]
     private Collection $userMatchesB;
 
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $messagesSender;
+
+    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: Message::class)]
+    private Collection $messagesReceiver;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->userMatchesA = new ArrayCollection();
         $this->userMatchesB = new ArrayCollection();
+        $this->messagesSender = new ArrayCollection();
+        $this->messagesReceiver = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -404,5 +412,65 @@ class Users
             $images[] = $img->toJson();
         }
         return $images;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessagesSender(): Collection
+    {
+        return $this->messagesSender;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessagesReceiver(): Collection
+    {
+        return $this->messagesReceiver;
+    }
+
+    public function addMessagesSender(Message $messagesSender): self
+    {
+        if (!$this->messagesSender->contains($messagesSender)) {
+            $this->messagesSender->add($messagesSender);
+            $messagesSender->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function addMessagesReceiver(Message $messagesReceiver): self
+    {
+        if (!$this->messagesReceiver->contains($messagesReceiver)) {
+            $this->messagesReceiver->add($messagesReceiver);
+            $messagesReceiver->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesSender(Message $messagesSender): self
+    {
+        if ($this->messagesSender->removeElement($messagesSender)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesSender->getSender() === $this) {
+                $messagesSender->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesReceiver(Message $messagesReceiver): self
+    {
+        if ($this->messagesReceiver->removeElement($messagesReceiver)) {
+            // set the owning side to null (unless already changed)
+            if ($messagesReceiver->getSender() === $this) {
+                $messagesReceiver->setSender(null);
+            }
+        }
+
+        return $this;
     }
 }

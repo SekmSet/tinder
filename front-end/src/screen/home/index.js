@@ -14,7 +14,7 @@ export const Index = () => {
   const [profils, setProfils] = useState([]);
   const [id, setId] = useState(1);
 
-  const unLike = async (val) => {
+  const unLike = async () => {
     const newUsersList = await actionUserMatch({
       id: id,
       action: "unlike",
@@ -52,7 +52,7 @@ export const Index = () => {
 
   return (
     <SafeAreaView>
-      {profils.length > 0 ? (
+      {profils?.length > 0 ? (
         <View style={styles.container}>
           <Image
             source={{ uri: profils[0].images[0].url }}

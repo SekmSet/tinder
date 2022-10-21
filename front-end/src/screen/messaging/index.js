@@ -5,10 +5,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 export const ViewAllMessaging = ({ navigation }) => {
   const [profils, setProfils] = useState([]);
+  const [id, setId] = useState(1);
 
-  const sendMessage = () => {
+  const sendMessage = (value) => {
     navigation.navigate("Messagerie", {
       screen: "Create",
+      params: {
+        profil: value,
+      },
     });
   };
 
@@ -24,22 +28,22 @@ export const ViewAllMessaging = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Ionicons.Button
-          style={styles.iconButton}
-          name="chatbubble-ellipses-outline"
-          size={30}
-          color="black"
-          onPress={sendMessage}
-        />
         {profils.map((profil) => (
           <View style={styles.match} key={profil.id}>
             <Image
-              source={{ uri: profils[0].images[0].url }}
+              source={{ uri: profil.images[0].url }}
               style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
             />
             <Text>
               {profil.last_name} {profil.first_name}
             </Text>
+            <Ionicons.Button
+              style={styles.iconButton}
+              name="chatbubble-ellipses-outline"
+              size={30}
+              color="black"
+              onPress={() => sendMessage(profil)}
+            />
           </View>
         ))}
       </View>
