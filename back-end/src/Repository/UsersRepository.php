@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,6 +40,42 @@ class UsersRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Users[] Returns an array all Users has no math a user
+     */
+    public function findUserNotMatch($idUser, $params = []): array
+    {
+        $exlude_users = $this->createQueryBuilder('u_exclude')
+            ->select("identity(matchA.userB)")
+            ->innerJoin("u_exclude.userMatchesA", "matchA", "with", "matchA.userA = $idUser")
+            ->getDQL();
+
+        $query = $this->createQueryBuilder('u')
+            ->where("u.id not in ($exlude_users)")
+            ->andWhere("u.id != $idUser");
+
+        foreach($params as $key => $param) {
+            $query->andWhere("u.$key = '${param}'");
+        }
+
+        return $query
+            ->orderBy('u.id')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+    public function getMyMatch($idUser): array {
+        return $this->createQueryBuilder('u')
+            ->select("identity(matchA.userB)")
+            ->innerJoin("u.userMatchesA", "matchA", "with", "matchA.action in ('like', 'super like')")
+            ->innerJoin("u.userMatchesB", "matchB", "with", "matchB.action in ('like', 'super like')")
+            ->andWhere("matchA.userB = matchB.userA")
+            ->andWhere("u.id = $idUser")
+            ->orderBy('u.id')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Users[] Returns an array of Users objects
 //     */

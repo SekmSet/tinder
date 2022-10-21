@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\UserMatchRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserMatchRepository::class)]
@@ -29,8 +28,6 @@ class UserMatch
 
     public function __construct()
     {
-        $this->userA = new ArrayCollection();
-        $this->userB = new ArrayCollection();
     }
 
     public function getId(): ?int

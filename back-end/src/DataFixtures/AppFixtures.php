@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
         $cities = ["Paris", "Marseille", "Lille", "Toulouse", "Nice", "Nantes"];
         $gender = ["Male", "Female", "Other", "Chut"];
 
-        for ($i = 0; $i <= 4; $i++) {
+        for ($i = 0; $i <= 500; $i++) {
             $users[$i] = new Users();
             $users[$i]->setEmail($faker->email);
             $users[$i]->setPassword($faker->password);
@@ -46,7 +46,7 @@ class AppFixtures extends Fixture
             for ($j = 0; $j < 5; $j++) {
                 $images[$j] = new Images();
                 $images[$j]->setUser($users[$user]);
-                $images[$j]->setUrl("https://picsum.photos/200/300");
+                $images[$j]->setUrl("https://picsum.photos/200/300?v=$user");
                 $images[$j]->setPosition($j);
                 $manager->persist($images[$j]);
             }

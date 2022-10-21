@@ -91,3 +91,10 @@ If you don't define a default value for you route you have to add the value para
 
 **If you parameter are dynamic** you don't need to make this change.
 
+
+## Reset databases
+
+bin/console doctrine:database:drop --force
+bin/console doctrine:database:create
+bin/console doctrine:migrations:migrate --no-interaction
+bin/console doctrine:fixtures:load --no-interaction

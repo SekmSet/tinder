@@ -2,23 +2,35 @@ controllers:
     resource: ../src/Controller/
     type: attribute
 
+my_match_list:
+    path: /api/match/me
+    defaults:
+        id: 1
+    controller: App\Controller\Match\ListMyMatch
+    methods: GET
+
 match_list:
     path: /api/match/{id}
     defaults:
-        id: 31
+        id: 1
     controller: App\Controller\Match\ListMatch
     methods: GET
+
+match_action:
+    path: /api/match/action
+    controller: App\Controller\Match\ActionMatch
+    methods: POST
 
 settings_list:
     path: /api/settings/{id}
     defaults:
-        id: 31
+        id: 1
     controller: App\Controller\Profil\Settings
     methods: GET
 
 messages_list:
     path: /api/messaging/{id}
     defaults:
-        id: 31
+        id: 1
     controller: App\Controller\Messages\ListMessages
     methods: GET
