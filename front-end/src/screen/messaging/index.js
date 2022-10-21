@@ -1,17 +1,16 @@
-import {
-  StyleSheet,
-  Button,
-  View,
-  SafeAreaView,
-  Text,
-  Alert,
-  Image,
-} from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getMatches } from "../../../service/match";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-export const ViewAllMessaging = () => {
+export const ViewAllMessaging = ({ navigation }) => {
   const [profils, setProfils] = useState([]);
+
+  const sendMessage = () => {
+    navigation.navigate("Messagerie", {
+      screen: "Create",
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,10 +24,21 @@ export const ViewAllMessaging = () => {
   return (
     <SafeAreaView>
       <View style={styles.container}>
+        <Ionicons.Button
+          style={styles.iconButton}
+          name="chatbubble-ellipses-outline"
+          size={30}
+          color="black"
+          onPress={sendMessage}
+        />
         {profils.map((profil) => (
-          <View key={profil.id}>
+          <View style={styles.match} key={profil.id}>
+            <Image
+              source={{ uri: profils[0].images[0].url }}
+              style={{ width: 60, height: 60, borderRadius: 60 / 2 }}
+            />
             <Text>
-              {profil.last_name} {profil.first_name} {profil.gender}
+              {profil.last_name} {profil.first_name}
             </Text>
           </View>
         ))}
@@ -42,5 +52,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
     padding: 10,
+    // flex: 1,
+    // flexDirection: "column",
+  },
+  iconButton: {
+    backgroundColor: "white",
+    borderColor: "black",
   },
 });
